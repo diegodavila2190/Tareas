@@ -1,0 +1,139 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Funciones en R
+
+Una funcion tiene un nombre, argumentos y un cuerpo. la estructura es la siguiente:
+
+nombre <- function(argumentos){
+
+operaciones
+
+}
+
+el nombre que se asigna a la funcion nos permite ajecutarla y hacer referencia a ella.
+
+Los argumentos: 
+son datos, estructuras de datos, conexiones a archivos u otras funciones y todos deben de tener nombre diferentes.
+
+el cuerpo de la funcion contiene, entre llaves, todas las operaciones que se ejecutaran cuando la funcion sea llamada.
+
+area de triangulo
+
+ejemplo:
+
+```{r}
+
+area_trian <- function(base,altura){
+  (base * altura)/2
+}
+
+
+```
+```{r}
+
+area_trian (base = 5, altura = 10)
+
+```
+
+Familia Apply
+
+La familia apply() pertenece a la base R y es popularizada con funciones para manipular secciones de datos en matrices, arregles y listas, en una forma repetitiva.
+Esta funcion permite cruzar informacion de varias maneras para evitar explicitamente el uso de lazos contruidos.
+Ellos actuan en una lista de entradas, matrices o arreglos y aplican una funcion nombrada con uno o varios argumentos.
+
+Las funciones llamadas o convocadas pueden ser:
+
+una funcion que suma (aggregating function), como por ejemplo la media, o la suma que retorna un numero.
+
+las funciones apply () forma las bases para combinaciones complejas y ayuda a realizar operaciones con pocas lineas de codigo.
+La familia esta conformada por funciones
+apply (), lapply(), sapply(),vapply(),mapply(), rapply() y tapply().
+
+apply(x,margin, fun, ....)
+donde:
+x es un arrego o matriz si la dimension del arreglo es 2.
+Margin, es la variable que define como la funcion sera aplicada. por ejemplo si margin es 1, esta sera aplicada sobre filas, pero si es 2 sera aplicada en columnas.
+Fun, es la funcion que le quieres aplicar a la data, puede ser una funcion de R.
+
+```{r}
+df <- data.frame(x=1:4, y=5:8, z =10:13)
+df
+```
+
+```{r}
+apply(X = df, MARGIN = 1, FUN = sum )
+```
+```{r}
+apply(X = df, MARGIN = 2, FUN = sum)
+```
+
+se puede establecer el argumento MARGIN como c(1,2) o equivalente como 1:2 para aplicar la funcion a cada valor del data frame.
+
+```{r}
+apply (df,c(1,2),sum)
+```
+al poner margin = c(2,1) en vez de c(1,2) la salida sera la misma matriz pero transpuesta.
+
+```{r}
+apply (df,c(2,1),sum)
+
+
+```
+
+vale la pena mencionar que los elementos de salida son elementos del data frame en si, ya que esta calculadndo la suma de cada celda individual.
+
+La funcion lapply ()
+Las diferencias entre apply () y lapply() son:
+1: Pueder ser utilizada por otros objetos como dataframes, listas o vectores.
+2: la salida que devuelve es una lista (lo cual explica el 1 en el nombre de la funcion), la cual tiene el mismo numero de elementos como el objeto que pasa atravez de ella.
+
+para ver como trabaja, crearemos unas matrices y extraeremos de cada una, una columna dada.
+ej:
+
+```{r}
+A<- matrix(1:12, nrow=3, ncol=4)
+A
+B<- matrix(12:1, nrow = 3, ncol = 4 )
+B
+C<- matrix(2:13, nrow = 3, ncol = 4)
+C
+```
+```{r}
+Mylist <- list(A,B,C)
+Mylist
+```
+```{r}
+lapply (Mylist, "[",1,)
+```
+```{r}
+lapply (Mylist, "[",1,1)
+
+```
+La funcion sapply ():
+esta funcion trabaja parecido a la lapply(), pero simprifica la salida a la data mas elemental posible.
+aplicando lapply() nos dara una lista a menos que pase por simplify=FALSE, como un parametro de sapply()
+
+ejemplo:
+
+```{r}
+
+sapply(Mylist,"[",2,1)
+```
+
+```{r}
+
+sapply (Mylist,"[",1,1)
+```
+vapply
+esta funcion es muy similar a la sapply, pero cuando utilizamos vapply necesitas especificar el tipo de salida explicita, en este ejemplo regresara un entero
+```{r}
+vapply(Mylist, sum, 1)
+
+vapply(Mylist, sum, 2)
+
+vapply(Mylist, mean, 2)
+
+```
+
