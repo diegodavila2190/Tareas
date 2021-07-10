@@ -6,5 +6,71 @@ output: html_notebook
 
 Diego Antonio Davila Fuentes
 leer archivo .CSV
+```{r}
+library(gapminder)
+library(dplyr)
 
+```
+1. Filtrar todos los votos del estado de Florida.
+
+```{r}
+
+dataset_results <- read.csv("primary_results.csv")
+
+ votos_florida <- filter(dataset_results, state == "Florida")
+
+ votos_florida
+```
+
+
+2. Utilice operadores lógicos (& and |), según corresponda:
+
+
+2.1. Filtrar votos para los candidatos Hillary Clinton o Donald Trump
+
+```{r}
+clinton_o_trump <- filter(dataset_results, candidate == "Hillary Clinton" | candidate == "Donald Trump")
+
+clinton_o_trump
+```
+
+2.2. Filtrar votos para el partido Demócrata y el condado Shelby
+
+
+```{r}
+Democrata_y_condado <- filter(dataset_results, party == "Democrat" & county == "Shelby")
+
+Democrata_y_condado
+```
+
+2.3. Filtrar votos para el estado de Alabama y que la cantidad de votos sea mayor a
+15000.
+
+```{r}
+votos_Alabama <- filter(dataset_results, state == "Alabama" & votes > 15000)
+votos_Alabama
+
+
+```
+
+3. Utilice la función select y arrange para el siguiente filtrado:
+
+3.1. Filtrar votos para el estado de Texas y el condado Denton, seleccionando
+únicamente las columnas party, candidate, votes, luego ordene de forma
+descendente por la columna votes.
+
+```{r}
+votos_texas_y_denton <- filter(dataset_results, state == "Texas" & county =="Denton")
+votos_texas_y_denton
+
+votos_texas_y_denton %>% select(state)
+sel_votos_texas_y_denton
+```
+
+
+4. Utilice el verbo mutate y arrange para el siguiente filtrado:
+4.1. Filtrar por el partido Republicano, que el candidato sea Ted Cruz en el estado de
+Alaska, luego agregue una columna que se llame vote_count que sea la división de
+votes por fraction_votes (votes/fraction_votes), finalmente ordene de forma
+descendente por vote_count.
 
