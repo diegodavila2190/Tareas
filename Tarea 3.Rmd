@@ -1,0 +1,10 @@
+---
+title: "Tarea 3"
+output: html_notebook
+---
+¡
+
+Diego Antonio Davila Fuentes
+leer archivo .CSV
+
+
