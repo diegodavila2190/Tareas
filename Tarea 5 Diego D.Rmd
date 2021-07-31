@@ -1,0 +1,83 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Diego Antonio Dávila Fuentes 
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+Cargue cada Set de datos y nombrelo según cada archivo
+
+```{r}
+answers <- read.csv("answers.csv")
+question_tags <- read.csv("question_tags.csv")
+questions <- read.csv("questions.csv")
+tags <- read.csv("tags.csv")
+
+questions
+answers
+tags
+question_tags
+```
+
+
+```{r}
+questions_with_tags <- left_join(questions, question_tags, by= c("id" = "question_id") )%>%
+  left_join(tags, by = c("tag_id"= "id"))%>%
+  replace_na(data.frame(tag_name="only_r"))
+questions_with_tags
+```
+
+
+
+
+```{r}
+questions_with_tags%>%
+  group_by(tag_name)%>%
+  summarise( mean_score = mean(score))%>%
+  arrange(desc(mean_score))
+```
+
+
+```{r}
+questions
+answers
+```
+
+
+```{r}
+questions%>%
+  inner_join(answers, by = c("id"= "question_id"), suffix = c("_question", "_answer"))%>%
+
+   mutate(gap = creation_date_answer - creation_date_question)
+```
+
+
+```{r}
+
+
+answers_counts <- answers%>%
+  arrange(desc(question_id))%>%
+  count(question_id)
+
+
+answers_counts
+```
+
+
+```{r}
+
+question_tags
+question_answer_counts
+tags
+
+
+question_tags%>%
+  inner_join(question_answer_counts, by = c("question_id" = "id"))%>%
+  inner_join(tags, by = c("tag_id" = "id"))
+
+
+```
+
